@@ -38,7 +38,7 @@ const User = mongoose.model('User', {
         trim: true,
         minlength: 7,
         validate(value) {
-            if (value.includes('password') ){
+            if (value.toLowerCase().includes('password') ){
                 throw new Error('Password is invalid')
             }
         }
@@ -51,25 +51,27 @@ const me = new User({
     password: 'hahahahahaha'
 })
 
-me.save().then(() => {
-    console.log(me)
-}).catch((error) => {
-    console.log('Error', error)
-})
+// me.save().then(() => {
+//     console.log(me)
+// }).catch((error) => {
+//     console.log('Error', error)
+// })
 
 const Task = mongoose.model('Task', {
     description: {
-        type: String
+        type: String,
+        required: true,
+        trim: true
     },
     completed: {
-        type: Boolean
+        type: Boolean,
+        default: false
     }
 })
 
-// const task = new Task({
-//     description: 'Take out trash',
-//     completed: false
-// })
+const task = new Task({
+    description: '  Walk dog   '
+})
 
 // task.save().then(() => {
 //     console.log(task)
