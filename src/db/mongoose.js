@@ -31,12 +31,24 @@ const User = mongoose.model('User', {
                 throw new Error('Email is invalid')
             }
         } 
+    },
+    password: {
+        type: String,
+        required: true,
+        trim: true,
+        minlength: 7,
+        validate(value) {
+            if (value.includes('password') ){
+                throw new Error('Password is invalid')
+            }
+        }
     } 
 })
 
 const me = new User({
-    name: '   Mitchell  ',
-    email: 'MYEMAIL@GMAIL.COM'
+    name: '   Mike  ',
+    email: 'MYEMAIL@GMAIL.COM',
+    password: 'hahahahahaha'
 })
 
 me.save().then(() => {
