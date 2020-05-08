@@ -106,6 +106,16 @@ app.get('/tasks/:id', async (req, res) => {
 })
 
 app.patch('/tasks/:id', async (req, res) => {
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['description', 'completed']
+    const isValidOperation = updates.every((update) => {
+        return allowedUpdates.includes(update)
+    })
+
+    if (!isValidOperation) {
+        return res.status(400).send({ error: 'Invalid updates!'})
+    }
+
     const _id = req.params.id
 
     try {
@@ -116,7 +126,7 @@ app.patch('/tasks/:id', async (req, res) => {
         }
         res.send(task)
     } catch (e) {
-        res.status(500).send()
+        res.status(400).send()
     }
 })
 
