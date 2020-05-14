@@ -4,7 +4,17 @@ const auth = require('../middleware/auth')
 const User = require('../models/user')
 const multer = require('multer')
 const upload = multer({
-    dest: 'avatars'
+    dest: 'avatars',
+    limits: {
+        fileSize: 1000000
+    },
+    fileFilter(req, file, cb) {
+        if (!file.originalname.match(/\.(jpq|jpeg|png)$/)) {
+            return cb(new Error('Please upload an image file'))
+        }
+
+        cb(undefined, true)
+    }
 })
 
 router.post('/users', async (req, res) => {
